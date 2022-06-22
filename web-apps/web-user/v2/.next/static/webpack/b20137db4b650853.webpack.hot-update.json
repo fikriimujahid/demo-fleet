@@ -1,0 +1,1 @@
+{"c":["pages/_app","webpack"],"r":["pages/auth/register"],"m":["./hooks/use-request.js","./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?absolutePagePath=%2Fapp%2Fpages%2Fauth%2Fregister.js&page=%2Fauth%2Fregister!","./pages/auth/register.js"]}

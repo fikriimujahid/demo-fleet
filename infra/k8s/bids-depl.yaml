@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bids-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bids
+  template:
+    metadata:
+      labels:
+        app: bids
+    spec:
+      containers:
+        - name: bids
+          image: fikrim/demo-fleet-bids:1.0.0-react
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              value: demo-fleet
+            - name: MONGO_URI
+              value: 'mongodb://bids-mongo-srv:27017/bids'
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: NODE_ENV
+              value: prod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bids-srv
+spec:
+  selector:
+    app: bids
+  ports:
+    - name: bids
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

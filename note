@@ -1,0 +1,10 @@
+start kubernetes
+1. minikube start
+2. execute this for set secret key 
+  "kubectl create secret generic jwt-secret --from-literal JWT_KEY=secret_code"
+  "kubectl create secret generic stripe-secret --from-literal STRIPE_KEY=sk_test_51LDMCtJysE7PufF1NZO4ep94Zn1uIlcHu26ssm9RzcTjL6pbMGgpkmZNfXuwkSIXqTGj9DpGCWszyh2iXePmxB5c00L1piEn8D" 
+3. skaffold dev
+
+- make sure /etc/hosts for kubernetes ip is added
+
+

@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  database:
+    image: 'mysql/mysql-server:8.0'
+    restart: unless-stopped
+    tty: true
+    environment: 
+      MYSQL_ROOT_PASSWORD: 'admin'
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: 'users'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'admin'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - dbdata:/var/lib/mysql
+      - "./mysql/my.cnf:/etc/mysql/my.cnf"
+    networks:
+      - users-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-padmin"]
+      retries: 3
+      timeout: 5s
+  app:
+    build: ./app
+    restart: unless-stopped
+    working_dir: /app
+    ports:
+      - '8100:8000'
+    volumes: 
+      - ./app:/app
+      - logs:/app/logs
+      - /app/node_modules
+    depends_on:
+      - database
+    networks:
+      - users-network
+
+networks:
+  users-network:
+    driver: bridge
+
+volumes: 
+  logs:
+  dbdata:

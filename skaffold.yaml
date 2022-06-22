@@ -1,0 +1,52 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+metadata:
+  name: demo-fleet-management-microservice
+build:
+  local:
+    push: false
+  artifacts:
+    - image: fikrim/demo-fleet-auth
+      context: auth/v1
+      docker:
+        dockerfile: Dockerfile
+      sync:
+          manual:
+            - src: "*.ts"
+              dest: .
+    - image: fikrim/demo-fleet-bookings
+      context: bookings/v1
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: fikrim/demo-fleet-bids
+      context: bids/v1
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .        
+    - image: fikrim/demo-fleet-web-user
+      context: web-apps/web-user/v1
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
+    - image: fikrim/demo-fleet-expiration
+      context: expiration/v1
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+deploy:
+  kubectl:
+    manifests:
+    - ./infra/k8s/*

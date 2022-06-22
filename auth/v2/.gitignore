@@ -1,0 +1,5 @@
+/app/node_modules
+/app/.env
+/mysql/data
+/app/logs
+/node_modules

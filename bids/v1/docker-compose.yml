@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  bids-mongo-srv:
+    image: mongo:5.0
+    volumes: 
+      - dbdata:/data/db
+    restart: always
+    ports:
+      - '27017:27017'
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+  bids:
+    build: ./
+    working_dir: /app
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes: 
+      - ./src:/app/src
+      - /app/node_modules
+    environment:
+      JWT_KEY: should_be_secret
+      NODE_ENV: dev
+    depends_on:
+      - bids-mongo-srv
+
+volumes: 
+  logs:
+  dbdata:

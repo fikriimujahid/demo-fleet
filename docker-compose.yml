@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  auth-mongo-srv:
+    image: mongo:5.0
+    volumes: 
+      - dbdata:/data/db
+    restart: always
+    ports:
+      - '27017:27017'
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+  auth:
+    build: ./auth/v1/
+    working_dir: /app
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes: 
+      - ./auth/v1/src:/app/src
+      - /app/node_modules
+    environment:
+      JWT_KEY: should_be_secret
+      NODE_ENV: dev
+    depends_on:
+      - auth-mongo-srv
+  web-user:
+    build: ./web-apps/web-user/v1/
+    working_dir: /app
+    restart: unless-stopped
+    ports:
+      - '3100:3000'
+    volumes: 
+      - ./web-apps/web-user/v1/:/app
+      - /app/node_modules
+volumes: 
+  logs:
+  dbdata:

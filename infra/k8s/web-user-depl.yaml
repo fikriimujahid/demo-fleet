@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-user-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-user
+  template:
+    metadata:
+      labels:
+        app: web-user
+    spec:
+      containers:
+        - name: web-user
+          image: fikrim/demo-fleet-web-user:1.0.0-react
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-user-srv
+spec:
+  selector:
+    app: web-user
+  ports:
+    - name: web-user
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
