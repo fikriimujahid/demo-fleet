@@ -1,7 +1,9 @@
 name: tests-booking
 
 on:
-  pull_request
+  pull_request:
+    paths:
+      - 'bookings/**'
   
 jobs:
   build:

@@ -1,7 +1,9 @@
 name: tests-bids
 
 on:
-  pull_request
+  pull_request:
+    paths:
+      - 'bids/**'
   
 jobs:
   build:
