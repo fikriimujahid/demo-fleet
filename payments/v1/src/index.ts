@@ -4,6 +4,7 @@ import { BookingCreatedListener } from './events/listeners/booking-created-liste
 import { natsWrapper } from './nats-wrapper';
 
 const start = async () => {
+  console.log('starting..');
   if(!process.env.JWT_KEY){
     throw new Error('JWT KEY not defined');
   }
