@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-user-v2-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-user-v2
+  template:
+    metadata:
+      labels:
+        app: web-user-v2
+    spec:
+      containers:
+        - name: web-user-v2
+          image: fikrim/demo-fleet-web-user-v2:1.0.0
+          # command: ["/bin/sh"]
+          # args: ["-c", "npm install & npm start"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-user-v2-srv
+spec:
+  selector:
+    app: web-user-v2
+  ports:
+    - name: web-user-v2
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
