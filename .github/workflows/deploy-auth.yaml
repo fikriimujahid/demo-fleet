@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2
-      - run: cd auth/v1 && docker build -t fikrim/demo-fleet-auth-v1 .
-      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker push fikrim/demo-fleet-auth-v1
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "auth-demo-fleet" #Must be unique in Heroku
+          heroku_email: "itsmefikri@gmail.com"
+          usedocker: true
