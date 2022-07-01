@@ -29,23 +29,31 @@ build:
       sync:
         manual:
           - src: 'src/**/*.ts'
-            dest: .        
-    - image: fikrim/demo-fleet-web-user
-      context: web-apps/web-user/v1
+            dest: .
+    - image: fikrim/demo-fleet-web-user-v2
+      context: web-apps/web-user/v2
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
           - src: '**/*.js'
-            dest: .
-    - image: fikrim/demo-fleet-expiration
-      context: expiration/v1
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
+            dest: .        
+    # - image: fikrim/demo-fleet-web-user
+    #   context: web-apps/web-user/v1
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: '**/*.js'
+    #         dest: .
+    # - image: fikrim/demo-fleet-expiration
+    #   context: expiration/v1
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual:
+    #       - src: 'src/**/*.ts'
+    #         dest: .
 deploy:
   kubectl:
     manifests:
